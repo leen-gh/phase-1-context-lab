@@ -83,21 +83,21 @@ describe("The payroll system", function () {
 
       it("creates the correct type", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        let updatedBpRecord = createTimeInEvent.call(bpRecord, "2014-02-28 1400")
+        let updatedBpRecord = createTimeInEvent.call(bpRecord, bpRecord, "2014-02-28 1400")
         let newEvent = updatedBpRecord.timeInEvents[0]
         expect(newEvent.type).to.equal("TimeIn")
       })
 
       it("extracts the correct date", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        let updatedBpRecord = createTimeInEvent.call(bpRecord, "2014-02-28 1400")
+        let updatedBpRecord = createTimeInEvent.call(bpRecord, bpRecord, "2014-02-28 1400")
         let newEvent = updatedBpRecord.timeInEvents[0]
         expect(newEvent.date).to.eq("2014-02-28");
       })
 
       it("extracts the correct hour", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        let updatedBpRecord = createTimeInEvent.call(bpRecord, "2014-02-28 1400")
+        let updatedBpRecord = createTimeInEvent.call(bpRecord, bpRecord, "2014-02-28 1400")
         let newEvent = updatedBpRecord.timeInEvents[0]
         expect(newEvent.hour).to.eq(1400);
       })
@@ -115,21 +115,21 @@ describe("The payroll system", function () {
 
       it("creates the correct type", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        let updatedBpRecord = createTimeOutEvent.call(bpRecord, "2015-02-28 1700")
+        let updatedBpRecord = createTimeOutEvent.call(bpRecord, bpRecord, "2015-02-28 1700")
         let newEvent = updatedBpRecord.timeOutEvents[0]
         expect(newEvent.type).to.equal("TimeOut")
       })
 
       it("extracts the correct date", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        createTimeOutEvent.call(bpRecord, "2015-02-28 1700")
+        createTimeOutEvent.call(bpRecord, bpRecord, "2015-02-28 1700")
         let newEvent = bpRecord.timeOutEvents[0]
         expect(newEvent.date).to.eq("2015-02-28");
       })
 
       it("extracts the correct hour", function () {
         let bpRecord = createEmployeeRecord(["Byron", "Poodle", "Mascot", 3])
-        createTimeOutEvent.call(bpRecord, "2015-02-28 1700")
+        createTimeOutEvent.call(bpRecord, bpRecord, "2015-02-28 1700")
         let newEvent = bpRecord.timeOutEvents[0]
         expect(newEvent.hour).to.eq(1700);
       })
@@ -145,9 +145,9 @@ describe("The payroll system", function () {
     describe("hoursWorkedOnDate", function () {
       it("calculates that the employee worked 2 hours", function () {
         cRecord = createEmployeeRecord(["Julius", "Caesar", "General", 1000])
-        createTimeInEvent.call(cRecord, "2044-03-15 0900")
-        createTimeOutEvent.call(cRecord, "2044-03-15 1100")
-        expect(hoursWorkedOnDate.call(cRecord, "2044-03-15")).to.equal(2)
+        createTimeInEvent.call(cRecord, cRecord, "2044-03-15 0900")
+        createTimeOutEvent.call(cRecord, cRecord, "2044-03-15 1100")
+        expect(hoursWorkedOnDate.call(cRecord, cRecord, "2044-03-15")).to.equal(2)
       })
     })
   })
@@ -161,17 +161,17 @@ describe("The payroll system", function () {
     describe("wagesEarnedOnDate", function () {
       it("calculates that the employee earned 54 dollars", function () {
         cRecord = createEmployeeRecord(["Julius", "Caesar", "General", 27])
-        createTimeInEvent.call(cRecord, "2044-03-15 0900")
-        createTimeOutEvent.call(cRecord, "2044-03-15 1100")
-        expect(wagesEarnedOnDate.call(cRecord, "2044-03-15")).to.equal(54)
+        createTimeInEvent.call(cRecord, cRecord, "2044-03-15 0900")
+        createTimeOutEvent.call(cRecord, cRecord, "2044-03-15 1100")
+        expect(wagesEarnedOnDate.call(cRecord, cRecord, "2044-03-15")).to.equal(54)
       })
 
       it("uses hoursWorkedOnDate", function() {
         let mySpy = chai.spy.on(window, "hoursWorkedOnDate")
         cRecord = createEmployeeRecord(["Julius", "Caesar", "General", 27])
-        createTimeInEvent.call(cRecord, "2044-03-15 0900")
-        createTimeOutEvent.call(cRecord, "2044-03-15 1100")
-        wagesEarnedOnDate.call(cRecord, "2044-03-15")
+        createTimeInEvent.call(cRecord, cRecord, "2044-03-15 0900")
+        createTimeOutEvent.call(cRecord, cRecord, "2044-03-15 1100")
+        wagesEarnedOnDate.call(cRecord, cRecord, "2044-03-15")
         expect(mySpy).to.have.been.called()
       })
     })
@@ -199,9 +199,9 @@ describe("The payroll system", function () {
       it("uses wagesEarnedOnDate", function() {
         let mySpy = chai.spy.on(window, "wagesEarnedOnDate")
         cRecord = createEmployeeRecord(["Julius", "Caesar", "General", 27])
-        createTimeInEvent.call(cRecord, "2044-03-15 0900")
-        createTimeOutEvent.call(cRecord, "2044-03-15 1100")
-        allWagesFor.call(cRecord)
+        createTimeInEvent.call(cRecord, cRecord, "2044-03-15 0900")
+        createTimeOutEvent.call(cRecord, cRecord,"2044-03-15 1100")
+        allWagesFor.call(cRecord,cRecord)
         expect(mySpy).to.have.been.called()
       })
     })
@@ -229,17 +229,17 @@ describe("The payroll system", function () {
 
         sTimeData.forEach(function (d) {
           let [dIn, dOut] = d
-          createTimeInEvent.call(sRecord, dIn)
-          createTimeOutEvent.call(sRecord, dOut)
+          createTimeInEvent.call(sRecord, sRecord, dIn)
+          createTimeOutEvent.call(sRecord,sRecord, dOut)
         })
 
         rTimeData.forEach(function (d, i) {
           let [dIn, dOut] = d
-          createTimeInEvent.call(rRecord, dIn)
-          createTimeOutEvent.call(rRecord, dOut)
+          createTimeInEvent.call(rRecord, rRecord, dIn)
+          createTimeOutEvent.call(rRecord,rRecord, dOut)
         })
 
-        let grandTotalOwed = [sRecord, rRecord].reduce((m, e) => m + allWagesFor.call(e), 0)
+        let grandTotalOwed = [sRecord, rRecord].reduce((m, e) => m + allWagesFor.call(e,e), 0)
         expect(grandTotalOwed).to.equal(770)
       })
     })
@@ -334,11 +334,11 @@ describe("The payroll system", function () {
               })
 
               timesInRecordRow[1].forEach(function(timeInStamp){
-                createTimeInEvent.call(rec, timeInStamp)
+                createTimeInEvent.call(rec,rec, timeInStamp)
               })
 
               timesOutRecordRow[1].forEach(function(timeOutStamp){
-                createTimeOutEvent.call(rec, timeOutStamp)
+                createTimeOutEvent.call(rec, rec, timeOutStamp)
               })
             }) 
             expect(calculatePayroll(employeeRecords)).to.eql(12480)
